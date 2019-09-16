@@ -3,6 +3,9 @@ import React, { Component} from 'react'
 import { render } from "react-dom"
 import Peaks from 'peaks.js'
 
+const ZoomIn = ({zoomIn}) =>
+  <button onClick={() => zoomIn()}>Other Zoom in</button>
+
 class Waveform extends Component {
   constructor(props) {
     super(props)
@@ -49,9 +52,13 @@ class Waveform extends Component {
     this.peaks.zoom.zoomOut() 
   }
 
-  zoomIn() {
-    this.peaks.zoom.zoomIn() 
-  }
+  getCurrentWaveform = () => this.peaks
+
+  zoomIn = () => {
+    const w = this.getCurrentWaveform()
+    w.zoom.zoomIn() 
+  } 
+
 
   render() {
     return (
@@ -61,7 +68,7 @@ class Waveform extends Component {
         </audio>
         <div ref={this.peaksContainer} style={{height: '100%', width: '100%'}}/>
         <button onClick={this.play.bind(this)}>Play</button>
-        <button onClick={this.zoomIn.bind(this)}>Zoom In</button>
+        <ZoomIn zoomIn={this.zoomIn} />
         <button onClick={this.zoomOut.bind(this)}>Zoom out</button>
       </div>
     )
